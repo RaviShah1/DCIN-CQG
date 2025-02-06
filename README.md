@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ## Organization
 
-The `DCIN_CQG` directory is structured to facilitate efficient organization of training, evaluation, visualization, and data processing tasks. The `main` folder contains scripts and subdirectories related to model training, including preprocessing utilities, data augmentation, custom loss functions, and evaluation scripts. The `visualizations` folder provides tools for analyzing and interpreting results, with a dedicated script for visualizing outputs and a collection of sample images. The `GRIS` and `LRIS` directories contain important scripts for pre-computing elements of the DCIN. 
+The `DCIN_CQG` directory is structured to enable efficient organization of training, evaluation, visualization, and data processing tasks. The `main` folder contains scripts and subdirectories related to model training, including preprocessing utilities, data augmentation, custom loss functions, and evaluation scripts. The `visualizations` folder provides tools for analyzing and interpreting results. The `GRIS` and `LRIS` directories contain important scripts for pre-computing elements of the DCIN. 
 
 ```none
 DCIN_CQG
