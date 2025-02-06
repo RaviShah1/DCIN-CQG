@@ -21,8 +21,8 @@ Our work contributes to the development of more robust medical image segmentatio
 
 Clone this repo.
 ```bash
-git clone https://github.com/Kaiseem/SLAug.git
-cd SLAug/
+git clone https://github.com/RaviShah1/DCIN-CQG.git
+cd CIN-CQG/
 ```
 
 This code requires PyTorch and PyTorch lightning. Please install dependencies with
