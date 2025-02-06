@@ -69,7 +69,7 @@ Then run the following commands: Coming soon
 
 ## Data and Experimental Results
 
-Data is not available and is owned by Aillis Inc.
+The data used for this project is private, proprietary, and the exclusive property of Aillis Inc.
 
 Information about the Data and Experimental Results can be found in our paper here: coming soon. 
 
