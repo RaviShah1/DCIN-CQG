@@ -1,12 +1,12 @@
-# DCIN-CQG
-
-## Code Coming Soon!
+# DCIN-CQG Pipeline
 
 ## Color-Quality Invariance for Robust Medical Image Segmentation
-link to paper coming soon
+
+**Authors**: Ravi Shah, Atsushi Fukuda, Quan Huu Cap
+
+**Paper**: https://arxiv.org/abs/2502.07200<br>
 
 **Abstract**
-
 Single-source domain generalization (SDG) in medical image segmentation remains a significant challenge, particularly for images with varying color distributions and qualities. 
 Previous approaches often struggle when models trained on high-quality images fail to generalize to low-quality test images due to these color and quality shifts. 
 In this work, we propose two novel techniques to enhance generalization: Dynamic Color Image Normalization (DCIN) and Color-Quality Generalization (CQG) loss. 
@@ -25,53 +25,97 @@ git clone https://github.com/RaviShah1/DCIN-CQG.git
 cd CIN-CQG/
 ```
 
-This code requires PyTorch and PyTorch lightning. Please install dependencies with
+This code requires PyTorch and PyTorch lightning. To create an environment, you can use:
 ```bash
-pip install -r requirements.txt
+conda env create -f environment.yml
+conda activate dcin_cqg
 ```
 
 ## Organization
 
-The `DCIN_CQG` directory is structured to enable efficient organization of training, evaluation, visualization, and data processing tasks. The `main` folder contains scripts and subdirectories related to model training, including preprocessing utilities, data augmentation, custom loss functions, and evaluation scripts. The `visualizations` folder provides tools for analyzing and interpreting results. The `GRIS` and `LRIS` directories contain important scripts for pre-computing elements of the DCIN. 
+The `main` folder contains scripts and subdirectories related to model training, including preprocessing utilities, data augmentation, custom loss functions, and evaluation scripts. The `visualizations` folder provides tools for analyzing and interpreting results. The `GRIS` and `LRIS` directories contain important scripts for pre-computing elements of the DCIN. 
 
 ```none
 DCIN_CQG
+├── GRIS
+│   ├── color_histogram_computation.py
+│   ├── gris_selector.py
+├── LRIS
+│   ├── create_feature_vector_db.py
 ├── main
 │   ├── preprocess
-│   │   ├── datasets/dataloaders 
-│   │   ├── augmentations
-│   │   ├── DCIN helpers
-│   ├── CQG Loss
-│   ├── training scripts
-│   ├── evaluation scripts
+│   │   ├── augmentations.py 
+│   │   ├── color_transfer.py
+│   │   ├── constants.py
+│   │   ├── dataset_cqg.py
+│   │   ├── dataset_test.py
+│   │   ├── dataset_train.py
+│   │   ├── dataset_val.py
+│   │   ├── lris_utils.py
+│   ├── loss.py
+│   ├── test.py
+│   ├── train_cqg.py
+│   ├── train_pl.py
+│   ├── train.py
 ├── visualizations
-│   ├── visualize results scripts
-│   ├── paper figures
-├── GRIS
-│   ├── color histogram computation
-│   ├── GRIS selector
-├── LRIS
-│   ├── embedding extractor
-│   ├── LRIS selector
+│   ├── visualize_results.py
 ```
 
-## Training (source domain)
+## Running the Code
 
-To run training, simply update the dataset class of the source domain in the main/preprocess directory to read in your images. For standard models, update `dataset_hq.py`. For color-quality generalization training, update `dataset_hq_cqg.py`
+**Step 1: Global Reference Image Selection**
 
-Then run the following commands: Coming soon
+Navigate to GRIS utils and update the paths in `gris_selector.py` with the paths to your dataset. Then run the selector and copy the best filepath that is output.
 
-## Inference (non-source domain)
+```
+cd GRIS
+python gris_selector.py
+cd ..
+```
 
-To run inference non-source domains, simply update the dataset class of a non-source domain (`dataset_lq.py` or `dataset_sp.py`) in the main/preprocess directory to read in your images. 
+**Step 2: Local Reference Image Selection**
 
-Then run the following commands: Coming soon
+Navigate to the LRIS utils and update the paths in `create_feature_vector_db.py` with the paths to your dataset. Then run the file to create the database.
+
+```
+cd LRIS
+python create_feature_vector_db.py --model_name swinv2_large_window12to24_192to384.ms_in22k_ft_in1k
+cd ..
+```
+
+**Step 3: Training**
+
+Navigate to the main directory. In `main/preprocess/constants.py` update the paths with paths to your dataset. You may need to change the `dataset_train.py` file if your data is in a different format. Then run the `train.py` file. You can specify the backbone, batch size, learning rate, number of epochs, augmentations, and name via the flags.
+
+```
+cd main
+python train.py --augs CQG
+```
+
+**Step 4: Evaluating**
+
+Make further updates to the `constants.py` file if necessary. Make further updates to `dataset_test.py` if necessary. Then go to the `test.py` file and place the paths to the checkpoints of the models you would like to evaluate in the `weight_list`. Then run the tester.
+
+```
+python test.py
+cd ..
+```
+
+**Step 5: Visualizing Results**
+
+Navigate to the visualizations directory. Select your image and options in the main function at the bottom. Then run the file.
+
+```
+cd visualizations
+python visualize_results.py
+```
+
 
 ## Data and Experimental Results
 
-The data used for this project is private, proprietary, and the exclusive property of Aillis Inc.
+The data used for this project is the private property of Aillis Inc.
 
-Information about the Data and Experimental Results can be found in our paper here: coming soon. 
+Information about the Data and Experimental Results can be found in our paper here: https://arxiv.org/abs/2502.07200
 
 ## Acknowledgements
 
@@ -86,4 +130,12 @@ for their valuable comments and feedback.
 
 
 ## Citation
-Coming Soon
+
+```
+@article{shah2025color,
+  title={Color-Quality Invariance for Robust Medical Image Segmentation},
+  author={Shah, Ravi and Fukuda, Atsushi and Cap, Quan Huu},
+  journal={arXiv preprint arXiv:2502.07200},
+  year={2025}
+}
+```
